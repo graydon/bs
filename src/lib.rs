@@ -54,11 +54,13 @@ impl From<&Bs> for Vec<usize> {
     fn from(bs: &Bs) -> Self {
         match bs {
             Bs::Small(s) => {
-                let mut v = Vec::new();
-                for i in 0..64 {
-                    if s & (1 << (63 - i)) != 0 {
-                        v.push(i);
-                    }
+                let mut v = Vec::with_capacity(s.count_ones() as usize);
+
+                let mut current = *s;
+                while current != 0 {
+                    let i = current.trailing_zeros() as usize;
+                    v.push(63 - i);
+                    current &= !(1 << i);
                 }
                 v
             }
