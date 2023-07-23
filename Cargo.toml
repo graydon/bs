@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Graydon Hoare <graydon@pobox.com>"]
 license = "MIT OR Apache-2.0"
 keywords = ["bitset", "bitvec", "set", "bit"]
-repository = "http://github.com/graydon/bs"
+repository = "https://github.com/graydon/bs"
 description = "Simple bitset with small-set (single-word) optimization."
 readme = "README.md"
 
