@@ -32,7 +32,7 @@
 use bit_set::BitSet;
 use bit_vec::BitVec;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Bs {
     Small(u64),
     Big(BitSet),
