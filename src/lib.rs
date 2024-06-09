@@ -31,11 +31,34 @@
 
 use bit_set::BitSet;
 use bit_vec::BitVec;
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Bs {
     Small(u64),
+    #[cfg_attr(feature = "serde", serde(with = "serde_helper"))]
     Big(BitSet),
+}
+#[cfg(feature = "serde")]
+mod serde_helper {
+    use super::*;
+    use serde::{Deserializer, Serializer};
+
+    pub fn serialize<S>(bs: &BitSet, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        bs.get_ref().serialize(serializer)
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<BitSet, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        BitVec::deserialize(deserializer).map(BitSet::from_bit_vec)
+    }
 }
 
 impl Default for Bs {
